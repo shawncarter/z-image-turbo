@@ -60,6 +60,67 @@ Open **`http://localhost:5173`** in your browser and start generating!
 
 ---
 
+## 🔌 MCP Server (Model Context Protocol)
+
+Z-Image-Turbo now includes an **MCP server** that allows AI assistants and other clients to generate images through the standardized Model Context Protocol.
+
+### Quick Start with MCP
+
+**Install MCP dependencies:**
+```bash
+cd backend
+pip install -r requirements.txt
+```
+
+**Run the MCP server:**
+
+For local integration (Claude Desktop, MCP Inspector):
+```bash
+cd backend
+./run_mcp.sh --stdio
+```
+
+For HTTP/web clients:
+```bash
+cd backend
+./run_mcp.sh --http --port 8001
+```
+
+**Configuration:**
+Edit `backend/mcp_config.json` to set default transport mode and port:
+```json
+{
+  "transport": "stdio",
+  "host": "0.0.0.0",
+  "port": 8001
+}
+```
+
+### Available MCP Tools
+
+- **`generate_image`** - Generate images from text prompts with full parameter control
+- **`get_model_info`** - Get model status and configuration
+- **`update_model_config`** - Modify model settings dynamically
+- **Resource: `image://examples`** - Access curated example prompts
+
+### Claude Desktop Integration
+
+Add to your Claude Desktop config file:
+```json
+{
+  "mcpServers": {
+    "z-image-turbo": {
+      "command": "python",
+      "args": ["/path/to/z-image-turbo/backend/mcp_server.py", "--transport", "stdio"]
+    }
+  }
+}
+```
+
+📖 **Full MCP Documentation:** See [`backend/MCP_README.md`](backend/MCP_README.md) for detailed setup, examples, and API reference.
+
+---
+
 ## ✨ Features
 
 ### Application
@@ -98,6 +159,7 @@ Z-Image-Turbo represents a significant leap in efficient generative AI:
 
 - **Backend:** FastAPI, PyTorch, Diffusers, Transformers
 - **Frontend:** React, Vite, Lucide React
+- **MCP Server:** FastMCP, Starlette (supports stdio and HTTP/SSE transports)
 - **Model:** Tongyi-MAI/Z-Image-Turbo (6B parameters)
 
 ---

@@ -1,0 +1,27 @@
+{
+  "transport": "stdio",
+  "host": "0.0.0.0",
+  "port": 8001,
+  "description": "Configuration for Z-Image-Turbo MCP Server",
+  "options": {
+    "transport": {
+      "description": "Communication transport mode",
+      "choices": ["stdio", "streamable-http"],
+      "default": "stdio",
+      "notes": [
+        "stdio: For local integrations (Claude Desktop, MCP Inspector)",
+        "streamable-http: For web clients and remote access via HTTP/SSE"
+      ]
+    },
+    "host": {
+      "description": "Host address for HTTP transport",
+      "default": "0.0.0.0",
+      "note": "Only used when transport is 'streamable-http'"
+    },
+    "port": {
+      "description": "Port number for HTTP transport",
+      "default": 8001,
+      "note": "Only used when transport is 'streamable-http'"
+    }
+  }
+}

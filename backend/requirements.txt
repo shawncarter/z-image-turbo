@@ -5,3 +5,5 @@ transformers
 accelerate
 protobuf
 sentencepiece
+mcp[cli]
+starlette
