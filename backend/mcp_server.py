@@ -22,6 +22,7 @@ logger = logging.getLogger(__name__)
 
 try:
     from mcp.server.fastmcp import FastMCP
+    from mcp.types import ImageContent
     import torch
     from diffusers import DiffusionPipeline
     from PIL import Image
@@ -109,7 +110,7 @@ async def generate_image(
     num_inference_steps: int = 8,
     guidance_scale: float = 0.0,
     seed: Optional[int] = None
-) -> str:
+) -> ImageContent:
     """
     Generate an image from a text prompt using the Z-Image-Turbo model.
 
@@ -122,7 +123,7 @@ async def generate_image(
         seed: Random seed for reproducibility (optional)
 
     Returns:
-        Base64-encoded PNG image data
+        Generated image in MCP ImageContent format
     """
     logger.info(f"Generating image with prompt: '{prompt}'")
 
@@ -156,7 +157,13 @@ async def generate_image(
         img_base64 = base64.b64encode(buffer.getvalue()).decode()
 
         logger.info("Image generated successfully")
-        return img_base64
+        
+        # Return as MCP ImageContent for proper rendering in clients
+        return ImageContent(
+            type="image",
+            data=img_base64,
+            mimeType="image/png"
+        )
 
     except Exception as e:
         error_msg = f"Error generating image: {str(e)}"
