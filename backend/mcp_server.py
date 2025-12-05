@@ -217,7 +217,7 @@ async def generate_image(
         prompt: Text description of the image to generate
         width: Image width in pixels (default: 512, must be divisible by 16)
         height: Image height in pixels (default: 512, must be divisible by 16)
-        num_inference_steps: Number of denoising steps (default: 8, range: 1-50)
+        num_inference_steps: Number of denoising steps (default: 5, range: 1-50)
         guidance_scale: Classifier-free guidance scale (default: 0.0, range: 0.0-20.0)
         seed: Random seed for reproducibility (optional)
 
