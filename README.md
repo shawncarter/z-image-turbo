@@ -1,5 +1,7 @@
 # Z-Image-Turbo
 
+## **Update:** MCP Server support! [Setup Guide](MCP_README.md)
+
 > A professional web interface for the Tongyi-MAI Z-Image-Turbo model — lightning-fast text-to-image generation with 6B parameters.
 
 ![Z-Image-Turbo Interface](assets/projectScreenshot.png)
@@ -61,6 +63,8 @@ Open **`http://localhost:5173`** in your browser and start generating!
 ---
 
 ## 🔌 MCP Server (Model Context Protocol)
+
+### Please refer to [MCP_README.md](MCP_README.md) for a full guide on implementation with LM Studio and Claude Desktop.
 
 Z-Image-Turbo now includes a powerful **MCP server** that exposes image generation capabilities through the standardized [Model Context Protocol](https://modelcontextprotocol.io). This allows AI assistants (like Claude), automation tools, and other MCP-compatible clients to generate images programmatically.
 
@@ -169,12 +173,11 @@ Add to your LM Studio MCP config file:
 {
   "mcpServers": {
     "z-image-turbo": {
-      "command": "C:/path/to/z-image-turbo/venv/Scripts/python.exe",
+      "command": "C:\\path\\to\\z-image-turbo\\venv\\Scripts\\python.exe",
       "args": [
-        "C:/path/to/z-image-turbo/backend/mcp_server.py",
+        "C:\\path\\to\\z-image-turbo\\backend\\mcp_server.py",
         "--transport",
-        "stdio",
-        "--eager-load"
+        "stdio"
       ],
       "env": {
         "PYTHONUNBUFFERED": "1"
@@ -186,10 +189,11 @@ Add to your LM Studio MCP config file:
 ```
 
 **Important**: 
-- Replace `C:/path/to/z-image-turbo` with your actual installation path
-- Use forward slashes `/` even on Windows
+- Replace `C:\\path\\to\\z-image-turbo` with your actual installation path
+- Use **double backslashes** `\\` for Windows paths in JSON
 - Point to the **venv Python executable** (not system Python!)
-- `--eager-load` loads the model at startup (avoids timeouts)
+- Model loads on first request by default (lazy loading)
+- Add `--eager-load` to args if you want model to load at startup
 - `timeout: 300000` (5 minutes in ms) for model loading + generation
 
 ### Claude Desktop Integration
@@ -200,12 +204,11 @@ Add to your Claude Desktop config file (`~/Library/Application Support/Claude/cl
 {
   "mcpServers": {
     "z-image-turbo": {
-      "command": "C:/path/to/z-image-turbo/venv/Scripts/python.exe",
+      "command": "C:\\path\\to\\z-image-turbo\\venv\\Scripts\\python.exe",
       "args": [
-        "C:/path/to/z-image-turbo/backend/mcp_server.py",
+        "C:\\path\\to\\z-image-turbo\\backend\\mcp_server.py",
         "--transport",
-        "stdio",
-        "--eager-load"
+        "stdio"
       ],
       "env": {
         "PYTHONUNBUFFERED": "1"
@@ -218,7 +221,9 @@ Add to your Claude Desktop config file (`~/Library/Application Support/Claude/cl
 
 **⚠️ Critical**: 
 - Use the **venv Python path**, not `"python"` (system Python won't have dependencies!)
-- `--eager-load` loads the model at startup to avoid timeout issues
+- Use **double backslashes** `\\` for Windows paths in JSON
+- Model loads on first request by default (saves memory)
+- Add `--eager-load` to args if you want model to load at startup (avoids first-request timeout)
 - `timeout: 300000` (5 minutes) ensures enough time for model loading
 
 After restarting Claude Desktop, you can ask Claude to generate images and it will use the MCP server automatically!
