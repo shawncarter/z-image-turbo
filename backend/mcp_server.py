@@ -36,7 +36,7 @@ try:
     from PIL import Image
 except ImportError as e:
     logger.error(f"Failed to import required packages: {e}")
-    logger.error("Please install dependencies: pip install -r requirements.txt")
+    logger.error("Please install dependencies: pip install -r backend/requirements.txt")
     sys.exit(1)
 
 
